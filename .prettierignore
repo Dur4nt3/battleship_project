@@ -1,0 +1,11 @@
+# Ignore artifacts:
+build
+coverage
+
+# Ignore config files:
+
+# Specifically for "eslint.config.mjs"
+**/*.config.mjs
+
+# Specifically for webpack configuration files
+**/webpack.*.*

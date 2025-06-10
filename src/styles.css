@@ -1,0 +1,7 @@
+@import url(./assets/stylesheets/fonts.css);
+
+:root {
+    --font-stack:
+        system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
