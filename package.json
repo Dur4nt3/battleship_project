@@ -1,13 +1,17 @@
 {
   "devDependencies": {
+    "@babel/core": "^7.27.4",
+    "@babel/preset-env": "^7.27.2",
     "@eslint/js": "^9.23.0",
     "@stylistic/eslint-plugin": "^4.2.0",
+    "babel-jest": "^30.0.0",
     "css-loader": "^7.1.2",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
     "globals": "^16.0.0",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.3",
+    "jest": "^30.0.0",
     "prettier": "3.5.3",
     "style-loader": "^4.0.0",
     "webpack": "^5.98.0",
@@ -17,6 +21,7 @@
   },
   "scripts": {
     "dev": "webpack serve --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js",
+    "test": "jest --watchAll --verbose"
   }
 }
