@@ -1,4 +1,4 @@
-import PlacementInfo from '../gameLogic/ship-placement';
+import PlacementInfo from '../gameLogic/placementInfo';
 
 describe('Tests for PlacementInfo class', () => {
     let shipPlacement;
@@ -43,20 +43,20 @@ describe('Tests for PlacementInfo class', () => {
         expect(PlacementInfo.isValidShipType('patrol')).toBeFalsy();
     });
 
-    test('Can check if a given string is a valid algebraic notation', () => {
+    test('Can check if a given string is a valid coordinate', () => {
         expect.assertions(7);
 
-        expect(PlacementInfo.isValidNotation('a5')).toBeTruthy();
-        expect(PlacementInfo.isValidNotation('c10')).toBeTruthy();
-        expect(PlacementInfo.isValidNotation('j7')).toBeTruthy();
+        expect(PlacementInfo.isValidCoordinate('a5')).toBeTruthy();
+        expect(PlacementInfo.isValidCoordinate('c10')).toBeTruthy();
+        expect(PlacementInfo.isValidCoordinate('j7')).toBeTruthy();
 
         // Correct format ([character][integer]) but values are out of the board
-        expect(PlacementInfo.isValidNotation('m5')).toBeFalsy();
-        expect(PlacementInfo.isValidNotation('b11')).toBeFalsy();
+        expect(PlacementInfo.isValidCoordinate('m5')).toBeFalsy();
+        expect(PlacementInfo.isValidCoordinate('b11')).toBeFalsy();
 
         // Invalid format
-        expect(PlacementInfo.isValidNotation('e4.5')).toBeFalsy();
-        expect(PlacementInfo.isValidNotation('abcd')).toBeFalsy();
+        expect(PlacementInfo.isValidCoordinate('e4.5')).toBeFalsy();
+        expect(PlacementInfo.isValidCoordinate('abcd')).toBeFalsy();
     });
 
     test('Can validate ship placement', () => {
@@ -102,7 +102,7 @@ describe('Tests for PlacementInfo class', () => {
         shipPlacement.setPlacement('carrier5', 'v', ['a1', 'a5']);
 
         expect(shipPlacement).toEqual({
-            carrier5: { alignment: 'v', start: 'a1', end: 'a5' },
+            carrier5: { alignment: 'v', squares: ['a1', 'a2', 'a3', 'a4', 'a5'] },
             battleship4: null,
             destroyer3: null,
             submarine3: null,
@@ -113,20 +113,21 @@ describe('Tests for PlacementInfo class', () => {
         shipPlacement.setPlacement('patrol2', 'v', ['b3', 'b4']);
 
         expect(shipPlacement).toEqual({
-            carrier5: { alignment: 'v', start: 'a1', end: 'a5' },
-            battleship4: { alignment: 'h', start: 'e6', end: 'h6' },
+            carrier5: { alignment: 'v', squares: ['a1', 'a2', 'a3', 'a4', 'a5'] },
+            battleship4: { alignment: 'h', squares: ['e6', 'f6', 'g6', 'h6'] },
             destroyer3: null,
             submarine3: null,
-            patrol2: { alignment: 'v', start: 'b3', end: 'b4' },
+            patrol2: { alignment: 'v', squares: ['b3', 'b4'] },
         });
 
         shipPlacement.setPlacement('carrier5', 'v', ['a6', 'a10']);
+
         expect(shipPlacement).toEqual({
-            carrier5: { alignment: 'v', start: 'a6', end: 'a10' },
-            battleship4: { alignment: 'h', start: 'e6', end: 'h6' },
+            carrier5: { alignment: 'v', squares: ['a6', 'a7', 'a8', 'a9', 'a10'] },
+            battleship4: { alignment: 'h', squares: ['e6', 'f6', 'g6', 'h6'] },
             destroyer3: null,
             submarine3: null,
-            patrol2: { alignment: 'v', start: 'b3', end: 'b4' },
+            patrol2: { alignment: 'v', squares: ['b3', 'b4'] },
         });
     });
 

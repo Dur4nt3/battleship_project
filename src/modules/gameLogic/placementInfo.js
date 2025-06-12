@@ -28,25 +28,25 @@ export default class PlacementInfo {
         return PlacementInfo.#shipTypes.includes(type);
     }
 
-    // Checks whether a string is a valid algebraic notation on a 10x10 board
+    // Checks whether a string is a valid coordinates on a 10x10 board
     // NOT responsible for validating that the input is in fact a string
-    static isValidNotation(string) {
-        const notationChar = string.charCodeAt(0);
-        const notationNum = Number(string.slice(1));
+    static isValidCoordinate(string) {
+        const coordinateChar = string.charCodeAt(0);
+        const coordinateNum = Number(string.slice(1));
 
         return (
-            notationChar >= 97 &&
-            notationChar <= 106 &&
-            !Number.isNaN(notationNum) &&
-            Number.isInteger(notationNum) &&
-            notationNum >= 1 &&
-            notationNum <= 10
+            coordinateChar >= 97 &&
+            coordinateChar <= 106 &&
+            !Number.isNaN(coordinateNum) &&
+            Number.isInteger(coordinateNum) &&
+            coordinateNum >= 1 &&
+            coordinateNum <= 10
         );
     }
 
     // Checks whether a given placement (alignment, size, start and finish squares) is valid
-    // DOES NOT validate whether or not the squares given are valid algebraic notation
-    // The above should be done using the 'PlacementInfo.isValidNotation' method outside of this method
+    // DOES NOT validate whether or not the squares given are valid coordinates
+    // The above should be done using the 'PlacementInfo.isValidCoordinates' method outside of this method
     static isValidPlacement(size, alignment, squareRange) {
         const modifier = size - 1;
 
@@ -105,12 +105,7 @@ export default class PlacementInfo {
         const targetSquares = PlacementInfo.#extractRange(squareRange);
         for (const ship in this) {
             if (this[ship] !== null) {
-                occupiedSquares.push(
-                    ...PlacementInfo.#extractRange([
-                        this[ship].start,
-                        this[ship].end,
-                    ])
-                );
+                occupiedSquares.push(...this[ship].squares);
             }
         }
 
@@ -127,7 +122,10 @@ export default class PlacementInfo {
     // Doesn't need to perform any validation
     // The above methods should be executed on the input before executing this method
     setPlacement(type, alignment, squareRange) {
-        this[type] = { alignment, start: squareRange[0], end: squareRange[1] };
+        this[type] = {
+            alignment,
+            squares: PlacementInfo.#extractRange(squareRange),
+        };
     }
 
     // Reverts all placements to null
