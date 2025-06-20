@@ -3,9 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="icon" type="image/x-icon" href="./assets/images/Logo.ico"> -->
-    <title>Document</title>
+    <link rel="icon" type="image/png" href="./assets/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="./assets/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="./assets/favicon/site.webmanifest" />
+    <title>Battleship</title>
 </head>
 <body>
+    <div class="stats-cont minimized">
+        <div class="wins-cont">
+            W:
+            <span class="win-count">0</span>
+        </div>
+        <img src="./assets/icons/bar-chart.svg" alt="Game Statistics" class="stats-icon">
+        <div class="losses-cont">
+            L:
+            <span class="lose-count">0</span>
+        </div>
+    </div>
+
+
+    <header class="page-header">
+        <h1 class="page-title">
+            Battleship
+            <p class="creator-info">
+                By <a href="https://github.com/Dur4nt3" class="github-profile" target="_blank" rel="noopener noreferrer">Durante</a>
+            </p>
+        </h1>
+    </header>
+
+    <main class="game-cont">
+        <div class="game-info">
+            <div class="player-side">
+                <h1 class="player-title">You</h1>
+                <div class="player-grid"></div>
+            </div>
+
+            <div class="ship-placement-cont">
+                <h1 class="placement-title">PLACE SHIPS</h1>
+                <div class="placement-method">
+                    <h3 class="manual-placement">
+                        Manual
+                        <img src="./assets/icons/hand.svg" alt="Manual Ship Placement" class="placement-type-icon">
+                    </h3>
+                    <h3 class="random-placement">
+                        Randomize
+                        <img src="./assets/icons/shuffle.svg" alt="Randomize Ship Placement" class="placement-type-icon">
+                    </h3>
+                </div>
+
+                <div class="manual-placement-cont hide">
+                    <h3 class="manual-placement-instructions">
+                        Drag & Drop To Place 
+                        <img src="./assets/icons/circle-question-mark.svg" alt="Help" class="placement-method-info-icon manual-placement-guide-icon">
+                    </h3>
+                    <div class="place-carrier"></div>
+                    <div class="place-battleship"></div>
+                    <div class="place-destroyer"></div>
+                    <div class="place-submarine"></div>
+                    <div class="place-patrol"></div>
+                </div>
+
+                <div class="random-placement-cont hide">
+                    <h3 class="random-placement-instruction">
+                        Randomize Placements
+                        <img src="./assets/icons/circle-question-mark.svg" alt="Help" class="placement-method-info-icon random-placement-guide-icon">
+                    </h3>
+                    <button class="place-randomly"><img src="./assets/icons/shuffle.svg" alt="Randomly Place Ships" class="place-randomly-icon"></button>
+                </div>
+            </div>
+
+            <div class="opponent-side">
+                <h1 class="opponent-title">Opponent</h1>
+                <div class="opponent-grid"></div>
+            </div>
+        </div>
+
+        <div class="start-cont">
+            <p class="error-description"></p>
+            <button class="start-game">Start</button>
+        </div>
+    </main>
+
+    <footer>
+        <a href="https://github.com/Dur4nt3/battleship_project" class="repo-link" rel="noopener noreferrer" target="_blank"><img src="./assets/icons/GitHub-mark-white.svg" alt="GitHub Repository"></a>
+    </footer>
 </body>
 </html>
