@@ -11,12 +11,39 @@
     <title>Battleship</title>
 </head>
 <body>
+    <div class="stats-cont minimized">
+        <div class="wins-cont">
+            W:
+            <span class="win-count">0</span>
+        </div>
+        <img src="./assets/icons/bar-chart.svg" alt="Game Statistics" class="stats-icon">
+        <div class="losses-cont">
+            L:
+            <span class="lose-count">0</span>
+        </div>
+    </div>
+
+
     <header class="page-header">
-        <h1 class="page-title">Battleship
+        <h1 class="page-title">
+            Battleship
             <p class="creator-info">
                 By <a href="https://github.com/Dur4nt3" class="github-profile" target="_blank" rel="noopener noreferrer">Durante</a>
             </p>
         </h1>
     </header>
+
+    <main class="game-cont">
+        <div class="game-info">
+            <div class="player-side"></div>
+            <div class="opponent-side"></div>
+        </div>
+
+        <!-- <button class="start-game">Start</button> -->
+    </main>
+
+    <footer>
+        <a href="https://github.com/Dur4nt3/battleship_project" class="repo-link" rel="noopener noreferrer" target="_blank"><img src="./assets/icons/GitHub-mark-white.svg" alt="GitHub Repository"></a>
+    </footer>
 </body>
 </html>
