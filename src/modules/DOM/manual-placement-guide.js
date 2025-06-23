@@ -38,10 +38,15 @@ function createManualPlacementGuide() {
     );
     const section1P2 = buildElementWithText(
         'p',
-        'Simply Drag & Drop your ships on the board to place them in your desired configuration.',
+        'Simply click the ship you want to place to select it, and click a square on the board to place it.',
         'guide-paragraph'
     );
-    section1.append(section1Title, section1P1, section1P2);
+    const section1P3 = buildElementWithText(
+        'p',
+        'Please note, the square you are clicking will be the starting the square (i.e., the first square your ship occupies).',
+        'guide-paragraph'
+    );
+    section1.append(section1Title, section1P1, section1P2, section1P3);
 
     const section2 = buildElement('div', 'guide-subsection');
 

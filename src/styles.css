@@ -204,6 +204,10 @@ main.game-cont {
     border-bottom: 1.5px solid var(--text-light);
 }
 
+.grid-square:has(.placement-hover-indicator) {
+    cursor: pointer;
+}
+
 .row-start::before {
     content: attr(data-row);
     font-weight: 400;
@@ -224,6 +228,16 @@ main.game-cont {
     transform: translateX(-50%);
 }
 
+.placement-hover-indicator, .manual-placement-cont > .ship-cont.already-placed {
+    background: rgba(37, 255, 116, 0.45);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.manual-placement-cont > .ship-cont.already-placed {
+    border: 2px solid var(--opponent-hit);
+}
+
 .ship-start-horizontal,
 .ship-mid-horizontal,
 .ship-end-horizontal,
@@ -237,9 +251,20 @@ main.game-cont {
     backdrop-filter: blur(10px);
 }
 
+.placement-hover-indicator.ship-start-horizontal {
+    border: 2px solid var(--opponent-hit);
+    border-right: none;
+}
+
 .ship-start-horizontal {
     border: 2px solid var(--ship-color);
     border-right: none;
+}
+
+.placement-hover-indicator.ship-mid-horizontal {
+    border: 2px solid var(--opponent-hit);
+    border-right: none;
+    border-left: none;
 }
 
 .ship-mid-horizontal {
@@ -248,9 +273,19 @@ main.game-cont {
     border-left: none;
 }
 
+.placement-hover-indicator.ship-end-horizontal {
+    border: 2px solid var(--opponent-hit);
+    border-left: none;
+}
+
 .ship-end-horizontal {
     border: 2px solid var(--ship-color);
     border-left: none;
+}
+
+.placement-hover-indicator.ship-start-vertical {
+    border: 2px solid var(--opponent-hit);
+    border-bottom: none;
 }
 
 .ship-start-vertical {
@@ -258,10 +293,21 @@ main.game-cont {
     border-bottom: none;
 }
 
+.placement-hover-indicator.ship-mid-vertical {
+    border: 2px solid var(--opponent-hit);
+    border-top: none;
+    border-bottom: none;
+}
+
 .ship-mid-vertical {
     border: 2px solid var(--ship-color);
     border-top: none;
     border-bottom: none;
+}
+
+.placement-hover-indicator.ship-end-vertical {
+    border: 2px solid var(--opponent-hit);
+    border-top: none;
 }
 
 .ship-end-vertical {
@@ -306,7 +352,7 @@ main.game-cont {
     gap: 1.25rem;
 
     /*Prevents the shifting of the start button when switching between placement methods*/
-    min-height: 27rem;
+    min-height: 30rem;
 }
 
 .placement-method {
@@ -447,33 +493,102 @@ main.game-cont {
     align-items: center;
 }
 
-.manual-placement-cont > *:not(.manual-placement-instructions) {
-    cursor: grab;
+.manual-placement-cont > .ship-cont {
+    cursor: pointer;
     background: rgba(103, 237, 255, 0.45);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border: 2px solid var(--ship-color);
 }
 
+.manual-placement-cont
+    > .ship-cont.currently-placing {
+    animation: placing-ship 0.4s linear infinite;
+    background: rgba(134, 15, 194, 0.45);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--primary-color);
+}
+
+.manual-placement-cont > .ship-cont.already-placed {
+    cursor: not-allowed;
+}
+
+@keyframes placing-ship {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(2.5deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(-2.5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
 .place-carrier {
-    width: calc(5 * 30px);
-    height: 30px;
+    display: grid;
+    grid-template-columns: repeat(5, 30px);
+    grid-template-rows: 30px;
 }
 
 .place-battleship {
-    width: calc(4 * 30px);
-    height: 30px;
+    display: grid;
+    grid-template-columns: repeat(4, 30px);
+    grid-template-rows: 30px;
 }
 
 .place-destroyer,
 .place-submarine {
-    width: calc(3 * 30px);
-    height: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 30px);
+    grid-template-rows: 30px;
 }
 
 .place-patrol {
-    width: calc(2 * 30px);
-    height: 30px;
+    display: grid;
+    grid-template-columns: repeat(2, 30px);
+    grid-template-rows: 30px;
+}
+
+.reset-placements-utility {
+    font-weight: 600;
+    user-select: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 0.5rem;
+}
+
+.reset-placements-utility::before {
+    content: '';
+    transform: scale(0);
+    transform-origin: center;
+    height: 0.15rem;
+    width: 100%;
+    background-color: var(--self-hit);
+    transition: 0.2s;
+    position: absolute;
+    bottom: -10%;
+}
+
+.reset-placements-utility:hover::before {
+    transform: scale(1);
+}
+
+.reset-placements-utility > img {
+    transition: 0.2s;
+}
+
+.reset-placements-utility:active > img {
+    transform: rotate(360deg);
 }
 
 .random-placement-cont {
@@ -1032,7 +1147,7 @@ footer {
 .exit-modal {
     margin-top: 1.25rem;
     align-self: center;
-    
+
     max-width: max-content;
     padding: 0.25rem 1.5rem 0.25rem 1.5rem;
     background-color: var(--self-hit);

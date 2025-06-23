@@ -53,16 +53,44 @@
                     </h3>
                 </div>
 
-                <div class="manual-placement-cont hide">
+                <div class="manual-placement-cont">
                     <h3 class="manual-placement-instructions">
-                        Drag & Drop To Place 
+                        Click & Drop To Place 
                         <img src="./assets/icons/circle-question-mark.svg" alt="Help" class="placement-method-info-icon manual-placement-guide-icon">
                     </h3>
-                    <div class="place-carrier"></div>
-                    <div class="place-battleship"></div>
-                    <div class="place-destroyer"></div>
-                    <div class="place-submarine"></div>
-                    <div class="place-patrol"></div>
+                    <div class="place-carrier ship-cont" data-size="5" data-ship="carrier5">
+                        <div class="carrier ship-start"></div>
+                        <div class="carrier ship-mid"></div>
+                        <div class="carrier ship-mid"></div>
+                        <div class="carrier ship-mid"></div>
+                        <div class="carrier ship-end"></div>
+                    </div>
+                    <div class="place-battleship ship-cont" data-size="4" data-ship="battleship4">
+                        <div class="battleship ship-start"></div>
+                        <div class="battleship ship-mid"></div>
+                        <div class="battleship ship-mid"></div>
+                        <div class="battleship ship-end"></div>
+                    </div>
+                    <div class="place-destroyer ship-cont" data-size="3" data-ship="destroyer3">
+                        <div class="destroyer ship-start"></div>
+                        <div class="destroyer ship-mid"></div>
+                        <div class="destroyer ship-end"></div>
+                    </div>
+                    <div class="place-submarine ship-cont" data-size="3" data-ship="submarine3">
+                        <div class="submarine ship-start"></div>
+                        <div class="submarine ship-mid"></div>
+                        <div class="submarine ship-end"></div>
+                    </div>
+                    <div class="place-patrol ship-cont" data-size="2" data-ship="patrol2">
+                        <div class="patrol ship-start"></div>
+                        <div class="patrol ship-end"></div>
+                    </div>
+                    <div class="manual-placement-utilities">
+                        <div class="reset-placements-utility">
+                            <span>Reset Placements</span>
+                            <img src="./assets/icons/rotate-ccw.svg" alt="Reset Ship Placements" class="reset-placements-icon">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="random-placement-cont hide">

@@ -55,7 +55,6 @@ export default class Board {
     // Given a ship's size, alignment and starting square
     // extracts all squares the ship will be placed on
     // Returns a collection of indices
-    // NOTE: 'startSquare' must be a valid starting placement for the ship
     static extractRange(size, alignment, startSquare) {
         let currentSquare = startSquare;
         const range = [startSquare];
