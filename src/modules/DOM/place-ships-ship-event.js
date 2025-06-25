@@ -1,4 +1,9 @@
-import { getShipCont, alreadyPlacing, resetAllUIPlacements } from './ship-event-utilities';
+import {
+    getShipCont,
+    alreadyPlacing,
+    resetAllUIPlacements,
+    removeFromBoard,
+} from './ship-event-utilities';
 
 // Defines the behavior of ships (i.e., the ones within the placement container) when attempting to place ships
 function placeShipsShipHandler(event) {
@@ -7,13 +12,25 @@ function placeShipsShipHandler(event) {
     const manualPlacementCont = document.querySelector(
         '.manual-placement-cont'
     );
+    const playerGrid = document.querySelector('.player-grid');
     if (
-        (target.classList.contains('ship-cont') ||
-            target.parentNode.classList.contains('ship-cont')) &&
-        !target.classList.contains('already-placed') &&
-        !target.parentNode.classList.contains('already-placed')
+        target.classList.contains('ship-cont') ||
+        target.parentNode.classList.contains('ship-cont')
     ) {
         const shipCont = getShipCont(target);
+
+        if (
+            target.classList.contains('already-placed') ||
+            target.parentNode.classList.contains('already-placed')
+        ) {
+            removeFromBoard(
+                manualPlacementCont,
+                playerGrid,
+                shipCont.dataset.ship
+            );
+            return;
+        }
+
         const currentlyPlacing = alreadyPlacing(manualPlacementCont);
 
         if (currentlyPlacing === shipCont) {
@@ -28,11 +45,12 @@ function placeShipsShipHandler(event) {
             shipCont.classList.add('currently-placing');
         }
     }
+
     if (
         target.classList.contains('reset-placements-utility') ||
         target.parentNode.classList.contains('reset-placements-utility')
     ) {
-        resetAllUIPlacements(manualPlacementCont, document.querySelector('.player-grid'));
+        resetAllUIPlacements(manualPlacementCont, playerGrid);
     }
 }
 

@@ -67,10 +67,20 @@ export function canFitUI(uiBoard, targetShip, startSquare, alignment) {
         const square = uiBoard.querySelector(
             `#${Board.indexToCoordinate(indexPair)}`
         );
+        // Invalid coordinate
         if (square === null) {
             return false;
         }
+        // Square is occupied
         if (square.lastChild !== null) {
+            // When changing alignment, the start square is still occupied
+            // Therefore, that specific square should be exempt
+            if (
+                JSON.stringify(Board.coordinateToIndex(square.id)) ===
+                JSON.stringify(placementRange[0])
+            ) {
+                continue;
+            }
             return false;
         }
     }
@@ -107,6 +117,7 @@ export function validPlacementHoverEffect(uiSquares, alignment, shipType) {
         const indicator = buildElement('div', 'placement-hover-indicator');
         indicator.dataset.ship = shipType;
         indicator.dataset.size = uiSquares.length;
+        indicator.dataset.alignment = alignment;
         if (Number(squareIndex) === 0) {
             indicator.classList.add(`ship-start-${alignmentFull}`);
         } else if (Number(squareIndex) === uiSquares.length - 1) {
@@ -139,6 +150,7 @@ export function placeOnUIBoard(uiSquares, shipType) {
         const ship = document.createElement('div');
         ship.dataset.ship = shipType;
         ship.dataset.size = uiSquares.length;
+        ship.dataset.alignment = alignment;
         if (Number(squareIndex) === 0) {
             ship.classList.add(`ship-start-${alignmentFull}`);
         } else if (Number(squareIndex) === uiSquares.length - 1) {
@@ -150,7 +162,12 @@ export function placeOnUIBoard(uiSquares, shipType) {
     }
 }
 
-export function updateShipsPlaced(shipType) {
+export function updateShipsPlaced(
+    shipType,
+    startCoordinate,
+    endCoordinate,
+    alignment
+) {
     const manualPlacementCont = document.querySelector(
         '.manual-placement-cont'
     );
@@ -159,6 +176,9 @@ export function updateShipsPlaced(shipType) {
         child.classList.remove('currently-placing');
         if (child.dataset.ship === shipType) {
             child.classList.add('already-placed');
+            child.dataset.shipStart = startCoordinate;
+            child.dataset.shipEnd = endCoordinate;
+            child.dataset.alignment = alignment;
         }
     }
 }

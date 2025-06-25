@@ -1,7 +1,7 @@
 import {
     buildElement,
     buildElementWithText,
-    exitModal
+    exitModal,
 } from '../extra-utilities/dom-manipulator';
 
 // Creates the manual placement method guide
@@ -63,15 +63,24 @@ function createManualPlacementGuide() {
     const section2List = buildElement('ul', 'guide-paragraph');
     const section2ListItem1 = buildElementWithText(
         'li',
-        'Clicking Ships: Change Alignment (Vertical/Horizontal)',
+        'Clicking The Starting Square Of The Ship: Change Alignment (Vertical/Horizontal)',
         'guide-list-item'
     );
     const section2ListItem2 = buildElementWithText(
         'li',
-        'Double Clicking Ships: Remove From Board',
+        'Clicking The Middle/End Squares Of The Ship: Change Ship Location',
         'guide-list-item'
     );
-    section2List.append(section2ListItem1, section2ListItem2);
+    const section2ListItem3 = buildElementWithText(
+        'li',
+        'Clicking A Ship On The Menu: Remove The Ship From The Board',
+        'guide-list-item'
+    );
+    section2List.append(
+        section2ListItem1,
+        section2ListItem2,
+        section2ListItem3
+    );
     section2.append(section2Title, section2P1, section2List);
 
     const section3 = buildElement('div', 'guide-subsection');

@@ -7,7 +7,14 @@ import {
     getPlacementRange,
     placeOnUIBoard,
     updateShipsPlaced,
+    getUIShipAlignment,
 } from './grid-event-utilities';
+
+import {
+    alreadyPlacing,
+    markForAdjustment,
+    removeFromBoard,
+} from './ship-event-utilities';
 
 import { gameStarted } from './game-ui-utilities';
 
@@ -22,21 +29,90 @@ function placeShipsGridClickHandler(event) {
     const { target } = event;
     const targetParent = target.parentNode;
     const playerGrid = document.querySelector('.player-grid');
+    const manualPlacementCont = document.querySelector(
+        '.manual-placement-cont'
+    );
 
     // Click events are only applicable when there's either a placement indicator or a ship present on the square
     if (targetParent.classList.contains('grid-square')) {
         // Trying to place a ship
         // NOTE: This event wouldn't execute if it was possible to place the ship in the clicked square
         if (target.classList.contains('placement-hover-indicator')) {
+            let alignment = target.dataset.alignment === 'v' ? 'v' : 'h';
+
             const placementRange = getPlacementRange(
                 Number(target.dataset.size),
-                'h',
+                alignment,
                 targetParent
             );
             const uiSquares = indicesToUISquares(placementRange);
+
             clearHoverEffects(playerGrid);
             placeOnUIBoard(uiSquares, target.dataset.ship);
-            updateShipsPlaced(target.dataset.ship);
+
+            alignment = getUIShipAlignment(uiSquares);
+            updateShipsPlaced(
+                target.dataset.ship,
+                uiSquares[0].id,
+                uiSquares[uiSquares.length - 1].id,
+                alignment
+            );
+        } else if (
+            target.classList.contains('ship-start-horizontal') ||
+            target.classList.contains('ship-start-vertical')
+        ) {
+            // Don't change alignment if the user is trying to place a ship
+            if (alreadyPlacing(manualPlacementCont)) {
+                return;
+            }
+            const futureAlignment = target.classList.contains(
+                'ship-start-horizontal'
+            )
+                ? 'v'
+                : 'h';
+
+            const canFit = canFitUI(
+                playerGrid,
+                target,
+                targetParent,
+                futureAlignment
+            );
+
+            if (canFit !== false) {
+                removeFromBoard(
+                    manualPlacementCont,
+                    playerGrid,
+                    target.dataset.ship
+                );
+
+                const placementRange = getPlacementRange(
+                    Number(target.dataset.size),
+                    futureAlignment,
+                    targetParent
+                );
+                const uiSquares = indicesToUISquares(placementRange);
+
+                placeOnUIBoard(uiSquares, target.dataset.ship);
+                updateShipsPlaced(
+                    target.dataset.ship,
+                    uiSquares[0].id,
+                    uiSquares[uiSquares.length - 1].id,
+                    futureAlignment
+                );
+            }
+        } else {
+            // Will only execute when the mid/end parts of the ship are clicked
+
+            // Don't change alignment if the user is trying to place a ship
+            if (alreadyPlacing(manualPlacementCont)) {
+                return;
+            }
+            removeFromBoard(
+                manualPlacementCont,
+                playerGrid,
+                target.dataset.ship
+            );
+            markForAdjustment(target.dataset.ship, manualPlacementCont);
         }
     }
 }
@@ -54,15 +130,26 @@ function placeShipsGridHoverHandler(event) {
     if (target.classList.contains('grid-square')) {
         const currentlyPlacing = getCurrentlyPlacing();
         if (currentlyPlacing !== null) {
-            // Initial alignment when hovering is always horizontal
-            const canFit = canFitUI(playerGrid, currentlyPlacing, target, 'h');
+            // If the data attribute isn't defined the alignment is horizontal (default)
+            const alignment =
+                currentlyPlacing.dataset.alignment === 'v' ? 'v' : 'h';
+
+            const canFit = canFitUI(
+                playerGrid,
+                currentlyPlacing,
+                target,
+                alignment
+            );
+
             if (canFit !== false) {
                 const squaresToMark = indicesToUISquares(canFit);
+
                 validPlacementHoverEffect(
                     squaresToMark,
-                    'h',
+                    alignment,
                     currentlyPlacing.dataset.ship
                 );
+
                 playerGrid.classList.add('active-placement');
             }
         }
