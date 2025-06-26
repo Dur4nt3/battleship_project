@@ -2,7 +2,7 @@ import {
     buildElement,
     buildElementWithText,
     exitModal,
-} from '../extra-utilities/dom-manipulator';
+} from '../../extra-utilities/dom-manipulator';
 
 // Creates the random placement method guide
 

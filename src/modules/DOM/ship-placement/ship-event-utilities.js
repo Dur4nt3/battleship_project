@@ -1,4 +1,6 @@
-import { clearChildren } from '../extra-utilities/dom-manipulator';
+import { clearChildren } from '../../extra-utilities/dom-manipulator';
+
+// Utility functions for 'place-ships-ship-event.js'
 
 export function getShipCont(element) {
     if (element.classList.contains('ship-cont')) {
@@ -21,6 +23,7 @@ export function resetAllUIPlacements(manualPlacementCont, targetBoard) {
     const squares = [...targetBoard.children];
     for (const child of manualPlacementChildren) {
         child.classList.remove('already-placed');
+        child.removeAttribute('data-alignment');
         child.removeAttribute('data-ship-start');
         child.removeAttribute('data-ship-end');
     }
@@ -35,6 +38,7 @@ export function removeFromBoard(manualPlacementCont, targetBoard, shipType) {
     for (const child of manualPlacementChildren) {
         if (child.dataset.ship === shipType) {
             child.classList.remove('already-placed');
+            child.removeAttribute('data-alignment');
             child.removeAttribute('data-ship-start');
             child.removeAttribute('data-ship-end');
         }
@@ -48,12 +52,13 @@ export function removeFromBoard(manualPlacementCont, targetBoard, shipType) {
     }
 }
 
-export function markForAdjustment(shipType, manualPlacementCont) {
+export function markForAdjustment(shipType, alignment, manualPlacementCont) {
     const manualPlacementChildren = [...manualPlacementCont.children];
         for (const child of manualPlacementChildren) {
         if (child.dataset.ship === shipType) {
             child.classList.add('currently-placing');
             child.classList.remove('already-placed');
+            child.dataset.alignment = alignment;
             child.removeAttribute('data-ship-start');
             child.removeAttribute('data-ship-end');
         }

@@ -16,7 +16,7 @@ import {
     removeFromBoard,
 } from './ship-event-utilities';
 
-import { gameStarted } from './game-ui-utilities';
+import { gameStarted } from '../game-flow/game-ui-utilities';
 
 // Defines the behavior of the grid (the square and ships within it) when attempting to place ships
 
@@ -112,7 +112,11 @@ function placeShipsGridClickHandler(event) {
                 playerGrid,
                 target.dataset.ship
             );
-            markForAdjustment(target.dataset.ship, manualPlacementCont);
+            markForAdjustment(
+                target.dataset.ship,
+                target.dataset.alignment,
+                manualPlacementCont
+            );
         }
     }
 }

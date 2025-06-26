@@ -22,6 +22,8 @@
     --opponent-hit-low-opacity: rgba(37, 255, 116, 0.65);
     --opponent-hit-darker: #00b341;
 
+    --orange-hit: #ea9500;
+
     --self-hit: #ff5136;
     --self-hit-low-opacity: rgba(255, 81, 54, 0.65);
 
@@ -229,7 +231,8 @@ main.game-cont {
     transform: translateX(-50%);
 }
 
-.placement-hover-indicator, .manual-placement-cont > .ship-cont.already-placed {
+.placement-hover-indicator,
+.manual-placement-cont > .ship-cont.already-placed {
     background: rgba(37, 255, 116, 0.45);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
@@ -253,7 +256,8 @@ main.game-cont {
     backdrop-filter: blur(10px);
 }
 
-.ship-start-horizontal, .ship-start-vertical {
+.ship-start-horizontal,
+.ship-start-vertical {
     cursor: pointer;
 }
 
@@ -322,14 +326,22 @@ main.game-cont {
 }
 
 .player-ship-hit {
-    background-color: var(--self-hit);
+    background-color: rgba(255, 81, 54, 0.45);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 }
+
 
 .opponent-ship-hit {
-    background-color: var(--opponent-hit);
+    width: 100%;
+    height: 100%;
+    background-color: rgba(234, 149, 0, 0.45);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 }
 
-.game-info .grid-square.ship-destroyed {
+.opponent-ship-hit,
+.player-ship-hit {
     cursor: not-allowed;
     background-image: url(./assets/icons/x.svg);
     background-size: cover;
@@ -338,11 +350,46 @@ main.game-cont {
 }
 
 .ship-destroyed.player-ship-hit {
-    background-color: var(--self-hit-low-opacity);
+    border: 2px solid var(--self-hit);
 }
 
 .ship-destroyed.opponent-ship-hit {
-    background-color: var(--opponent-hit-low-opacity);
+    background-color: rgba(37, 255, 116, 0.45);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--opponent-hit);
+}
+
+.ship-destroyed.opponent-ship-hit.ship-start-horizontal {
+    border: 2px solid var(--opponent-hit);
+    border-right: none;
+}
+
+.ship-destroyed.opponent-ship-hit.ship-mid-horizontal {
+    border: 2px solid var(--opponent-hit);
+    border-left: none;
+    border-right: none;
+}
+
+.ship-destroyed.opponent-ship-hit.ship-end-horizontal {
+    border: 2px solid var(--opponent-hit);
+    border-left: none;
+}
+
+.ship-destroyed.opponent-ship-hit.ship-start-vertical {
+    border: 2px solid var(--opponent-hit);
+    border-bottom: none;
+}
+
+.ship-destroyed.opponent-ship-hit.ship-mid-vertical {
+    border: 2px solid var(--opponent-hit);
+    border-top: none;
+    border-bottom: none;
+}
+
+.ship-destroyed.opponent-ship-hit.ship-end-vertical {
+    border: 2px solid var(--opponent-hit);
+    border-top: none;
 }
 
 /* Board Styles */
@@ -508,8 +555,7 @@ main.game-cont {
     border: 2px solid var(--ship-color);
 }
 
-.manual-placement-cont
-    > .ship-cont.currently-placing {
+.manual-placement-cont > .ship-cont.currently-placing {
     animation: placing-ship 0.4s linear infinite;
     background: rgba(134, 15, 194, 0.45);
     -webkit-backdrop-filter: blur(10px);

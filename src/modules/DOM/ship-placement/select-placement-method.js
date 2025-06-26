@@ -1,4 +1,4 @@
-import { hide, show } from '../extra-utilities/dom-manipulator';
+import { hide, show } from '../../extra-utilities/dom-manipulator';
 
 // Allows switching between placement methods
 

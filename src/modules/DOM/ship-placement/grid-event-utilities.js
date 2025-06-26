@@ -1,7 +1,7 @@
-import PlacementInfo from '../gameLogic/placementInfo';
-import Board from '../gameLogic/board';
+import PlacementInfo from '../../gameLogic/placementInfo';
+import Board from '../../gameLogic/board';
 
-import { buildElement } from '../extra-utilities/dom-manipulator';
+import { buildElement } from '../../extra-utilities/dom-manipulator';
 
 // Utility functions for 'place-ships-grid-event.js'
 

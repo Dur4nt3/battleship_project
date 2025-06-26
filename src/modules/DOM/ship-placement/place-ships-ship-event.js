@@ -5,10 +5,17 @@ import {
     removeFromBoard,
 } from './ship-event-utilities';
 
+import { gameStarted } from '../game-flow/game-ui-utilities';
+
 // Defines the behavior of ships (i.e., the ones within the placement container) when attempting to place ships
+
 function placeShipsShipHandler(event) {
+    if (gameStarted()) {
+        return;
+    }
+
     const { target } = event;
-    // Don't trigger the event for these elements
+
     const manualPlacementCont = document.querySelector(
         '.manual-placement-cont'
     );
