@@ -66,7 +66,7 @@ export default class Battleship {
         }
     }
 
-    // Solely update statistics
+    // Solely updates statistics
     // 'gameStatus' and 'currentTurn' are updated to indicate that the game is over
     endGame(winner) {
         if (winner === 'player') {

@@ -34,6 +34,10 @@
     --start-button-error-color: rgb(255, 81, 54);
     --start-button-error-bg-color: rgba(255, 81, 54, 0.36);
     --start-button-error-pattern-color: rgba(255, 81, 54, 0.073);
+
+    --start-button-reset-color: rgb(234, 149, 0);
+    --start-button-reset-bg-color: rgba(234, 149, 0, 0.36);
+    --start-button-reset-pattern-color: rgba(234, 149, 0, 0.073);
 }
 
 body {
@@ -186,6 +190,12 @@ main.game-cont {
 
 .game-info.game-started .player-side:not(.attacked),
 .game-info.game-started .opponent-side:not(.attacked) {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.game-info.game-ended .player-grid,
+.game-info.game-ended .opponent-grid {
     opacity: 0.65;
     cursor: not-allowed;
 }
@@ -368,7 +378,8 @@ main.game-cont {
 }
 
 .opponent-ship-hit,
-.player-ship-hit {
+.player-ship-hit,
+.grid-square.miss {
     cursor: not-allowed;
     background-image: url(./assets/icons/x.svg);
     background-size: cover;
@@ -841,6 +852,40 @@ main.game-cont {
     transition: background-size 0.2s ease-in-out;
 }
 
+.start-game.reset-game {
+    background:
+        radial-gradient(
+            circle,
+            var(--start-button-reset-bg-color) 0%,
+            rgba(0, 0, 0, 0) 95%
+        ),
+        linear-gradient(
+            var(--start-button-reset-pattern-color) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            to right,
+            var(--start-button-reset-pattern-color) 1px,
+            transparent 1px
+        );
+    background-size:
+        cover,
+        0.85rem 0.85rem,
+        0.85rem 0.85rem;
+    background-position:
+        center center,
+        center center,
+        center center;
+    border-image: radial-gradient(
+            circle,
+            var(--start-button-reset-color) 0%,
+            rgba(0, 0, 0, 0) 100%
+        )
+        1;
+    color: var(--start-button-reset-color);
+    transition: background-size 0.2s ease-in-out;
+}
+
 .start-game:hover {
     background-size:
         cover,
@@ -854,6 +899,10 @@ main.game-cont {
 
 .start-game.start-error:active {
     filter: hue-rotate(20deg);
+}
+
+.start-game.reset-game:active {
+    filter: hue-rotate(125deg);
 }
 
 /* ----------------------------------------------
