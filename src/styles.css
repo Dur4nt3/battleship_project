@@ -190,6 +190,34 @@ main.game-cont {
     cursor: not-allowed;
 }
 
+.game-flow-indicator {
+    font-size: 1.25ch;
+    min-width: calc(25 * 1.25ch);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-flow-indicator > .player-move {
+    text-transform: uppercase;
+    text-align: center;
+
+    color: var(--text-light);
+    -webkit-text-fill-color: var(--background-color);
+    -webkit-text-stroke-width: 1.5px;
+    -webkit-text-stroke-color: var(--opponent-hit);
+}
+
+.game-flow-indicator > .opponent-move {
+    text-transform: uppercase;
+    text-align: center;
+
+    color: var(--text-light);
+    -webkit-text-fill-color: var(--background-color);
+    -webkit-text-stroke-width: 1.5px;
+    -webkit-text-stroke-color: var(--self-hit);
+}
+
 .player-side.attacked .grid-square,
 .opponent-side.attacked .grid-square {
     cursor: pointer;
@@ -330,7 +358,6 @@ main.game-cont {
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
-
 
 .opponent-ship-hit {
     width: 100%;
