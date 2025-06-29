@@ -3,9 +3,9 @@ import Board from '../gameLogic/board';
 // NOTE: placements are static
 // The test below expect the following placements (in coordinates):
 // Carrier: a1-a5 | Battleship: b1-b4 | Destroyer: d7-f7 | Submarine: d6-f6 | Patrol: j1-j2
-import { placeShips } from './utilities/board.utilities';
+import { placeShips } from './utilities/board-utilities';
 
-describe('Tests for Board class', () => {
+describe('Tests for the Board class', () => {
     let gameBoard;
 
     // Initialize gameBoard before every test (fresh object)
@@ -348,6 +348,9 @@ describe('Tests for Board class', () => {
     test('Can return an object with the location of sunken ships', () => {
         placeShips(gameBoard, 'patrol2', 'submarine3', 'carrier5');
 
+        gameBoard.markSquare([0,0]);
+        gameBoard.markSquare([0,1]);
+        gameBoard.markSquare([0,2]);
         gameBoard.markSquare([9, 0]);
         gameBoard.markSquare([9, 1]);
         gameBoard.markSquare([3, 5]);

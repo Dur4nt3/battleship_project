@@ -18,7 +18,7 @@ beforeEach(() => {
     gameFlow = new Battleship(playerBoard, opponentBoard);
 });
 
-describe('Tests for Battleship class', () => {
+describe('Tests for the Battleship class', () => {
     test('Can create instances of Battleship', () => {
         expect(gameFlow instanceof Battleship).toBeTruthy();
     });
@@ -50,7 +50,7 @@ describe('Tests for Battleship class', () => {
     });
 });
 
-describe('Additional tests for Battleship class (player start is forced)', () => {
+describe('Additional tests for the Battleship class (player start is forced)', () => {
     // Ensure the player always starts
     beforeEach(() => {
         forcePlayerStart(gameFlow);
