@@ -195,6 +195,7 @@ function gameOverUIChanges(winner) {
     }
 
     show(resetCont);
+    resetCont.querySelector('.error-description').classList.add('clear-visibility');
     resetButton.classList.add('reset-game');
     resetButton.textContent = 'Reset';
 }

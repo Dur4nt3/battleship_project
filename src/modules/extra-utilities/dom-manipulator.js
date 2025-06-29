@@ -38,8 +38,8 @@ export function buildImgElement(src, alt, ...classNames) {
 // Remove all children of an element
 // Might need to change max depth to ensure all children are removed
 export function clearChildren(element) {
-    // Fail-safe: after 100 iterations exit
-    const maxDepth = 100;
+    // Fail-safe: after 250 iterations exit
+    const maxDepth = 250;
     let count = 0;
     while (element.lastChild !== null && count < maxDepth) {
         element.lastChild.remove();

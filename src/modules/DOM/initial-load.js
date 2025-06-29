@@ -7,6 +7,7 @@ import placeShipsGridEvent from './ship-placement/place-ships-grid-event';
 import placeShipsRandomizeEvent from './ship-placement/place-ships-randomize-event';
 import startGameEvent from './game-flow/start-game';
 import playGameEvent from './game-flow/play-game';
+import resetGameEvent from './game-flow/reset-game';
 
 // Barrels functions to execute immediately on page load
 
@@ -20,4 +21,5 @@ export default function initialLoad() {
     placeShipsRandomizeEvent();
     startGameEvent();
     playGameEvent();
+    resetGameEvent();
 }
