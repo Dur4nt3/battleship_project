@@ -1,6 +1,6 @@
 import PlacementInfo from '../gameLogic/placementInfo';
 
-describe('Tests for PlacementInfo class', () => {
+describe('Tests for the PlacementInfo class', () => {
     let shipPlacement;
 
     // Initialize shipPlacement before every test (fresh object)
