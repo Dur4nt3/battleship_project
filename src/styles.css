@@ -398,36 +398,36 @@ main.game-cont {
     border: 2px solid var(--opponent-hit);
 }
 
-.ship-destroyed.opponent-ship-hit.ship-start-horizontal {
-    border: 2px solid var(--opponent-hit);
-    border-right: none;
+.ship-destroyed.opponent-ship-hit.ship-start-horizontal,
+.ship-destroyed.player-ship-hit.ship-start-horizontal {
+    background-image: url(./assets/icons/chevron-left.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.ship-destroyed.opponent-ship-hit.ship-mid-horizontal {
-    border: 2px solid var(--opponent-hit);
-    border-left: none;
-    border-right: none;
+.ship-destroyed.opponent-ship-hit.ship-end-horizontal,
+.ship-destroyed.player-ship-hit.ship-end-horizontal {
+    background-image: url(./assets/icons/chevron-right.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.ship-destroyed.opponent-ship-hit.ship-end-horizontal {
-    border: 2px solid var(--opponent-hit);
-    border-left: none;
+.ship-destroyed.opponent-ship-hit.ship-start-vertical,
+.ship-destroyed.player-ship-hit.ship-start-vertical {
+    background-image: url(./assets/icons/chevron-up.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.ship-destroyed.opponent-ship-hit.ship-start-vertical {
-    border: 2px solid var(--opponent-hit);
-    border-bottom: none;
-}
-
-.ship-destroyed.opponent-ship-hit.ship-mid-vertical {
-    border: 2px solid var(--opponent-hit);
-    border-top: none;
-    border-bottom: none;
-}
-
-.ship-destroyed.opponent-ship-hit.ship-end-vertical {
-    border: 2px solid var(--opponent-hit);
-    border-top: none;
+.ship-destroyed.opponent-ship-hit.ship-end-vertical,
+.ship-destroyed.player-ship-hit.ship-end-vertical {
+    background-image: url(./assets/icons/chevron-down.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 /* Board Styles */

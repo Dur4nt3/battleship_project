@@ -63,34 +63,40 @@ function pcPossibleMoves(playerBoard) {
 }
 
 function generatePCMove(gameObj, method) {
+    if (method === 'calculated') {
+        const pcLog = gameObj.opponent.log;
+        const movesPerformed = gameObj.player.board.exhaustedMoves();
+        const sinkLog = gameObj.player.board.getSinkLog();
+        const emptyBoard = new Board();
+
+        const nextMove = PCPlay.nextMove(
+            pcLog,
+            movesPerformed,
+            sinkLog,
+            emptyBoard
+        );
+
+        if (nextMove !== null) {
+            return Board.indexToCoordinate(nextMove);
+        }
+
+        const largestStanding = PCPlay.largestNotDestroyed(sinkLog);
+
+        const newMove = PCPlay.newMove(
+            movesPerformed,
+            largestStanding,
+            emptyBoard
+        );
+
+        return Board.indexToCoordinate(newMove);
+    }
+
     if (method === 'random') {
         const possibleMoves = pcPossibleMoves(gameObj.player.board);
         const chosenMove =
             possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
         return Board.indexToCoordinate(chosenMove);
     }
-
-    const pcLog = gameObj.opponent.log;
-    const movesPerformed = gameObj.player.board.exhaustedMoves();
-    const sinkLog = gameObj.player.board.getSinkLog();
-    const emptyBoard = new Board();
-
-    const nextMove = PCPlay.nextMove(
-        pcLog,
-        movesPerformed,
-        sinkLog,
-        emptyBoard
-    );
-
-    if (nextMove !== null) {
-        return Board.indexToCoordinate(nextMove);
-    }
-
-    const largestStanding = PCPlay.largestNotDestroyed(sinkLog);
-
-    const newMove = PCPlay.newMove(movesPerformed, largestStanding, emptyBoard);
-
-    return Board.indexToCoordinate(newMove);
 }
 
 function getTurnResults(gameObj) {
@@ -101,7 +107,39 @@ function getTurnResults(gameObj) {
     return gameObj.player.log[gameObj.player.log.length - 1];
 }
 
-function displayTurnResults(results, affectedParty) {
+// Adds start and finish classes to the start and finish of destroyed ships
+function updateOpponentShipIndicators(opponentGrid, gameObj) {
+    const shipSunken = gameObj.opponent.board.getSinkLog();
+    for (const ship in shipSunken) {
+        if (shipSunken[ship] !== false) {
+            const startCoordinate = Board.indexToCoordinate(
+                shipSunken[ship][0]
+            );
+            const endCoordinate = Board.indexToCoordinate(
+                shipSunken[ship][shipSunken[ship].length - 1]
+            );
+
+            // Horizontal alignment
+            if (startCoordinate[0] === endCoordinate[0]) {
+                opponentGrid
+                    .querySelector(`#${startCoordinate}`)
+                    .classList.add('ship-start-horizontal');
+                opponentGrid
+                    .querySelector(`#${endCoordinate}`)
+                    .classList.add('ship-end-horizontal');
+            } else {
+                opponentGrid
+                    .querySelector(`#${startCoordinate}`)
+                    .classList.add('ship-start-vertical');
+                opponentGrid
+                    .querySelector(`#${endCoordinate}`)
+                    .classList.add('ship-end-vertical');
+            }
+        }
+    }
+}
+
+function displayTurnResults(results, affectedParty, gameObj = null) {
     const playerGrid = document.querySelector('.player-grid');
     const opponentGrid = document.querySelector('.opponent-grid');
 
@@ -145,6 +183,7 @@ function displayTurnResults(results, affectedParty) {
             opponentGrid
                 .querySelector(`#${coordinate}`)
                 .classList.add('opponent-ship-hit', 'ship-destroyed');
+            updateOpponentShipIndicators(opponentGrid, gameObj);
         }
     }
 }
@@ -248,15 +287,25 @@ function isGameOver(gameObj) {
     return false;
 }
 
+function pcFallback(gameObj) {
+    if (gameObj.currentTurn === 'opponent') {
+        console.log('FALLBACK INITIATED!');
+        playTurn(gameObj, generatePCMove(gameObj, 'random'));
+        displayTurnResults(getTurnResults(gameObj), 'player');
+        markCurrentTurn(gameObj.currentTurn);
+    }
+}
+
 export function fullTurnSequence(gameObj, targetMove = null) {
     if (gameObj.currentTurn === 'player') {
         playTurn(gameObj, targetMove);
-        displayTurnResults(getTurnResults(gameObj), 'opponent');
+        displayTurnResults(getTurnResults(gameObj), 'opponent', gameObj);
         markCurrentTurn(gameObj.currentTurn);
     } else {
         playTurn(gameObj, generatePCMove(gameObj, 'calculated'));
         displayTurnResults(getTurnResults(gameObj), 'player');
         markCurrentTurn(gameObj.currentTurn);
+        pcFallback(gameObj);
     }
 
     if (isGameOver(gameObj) !== false) {

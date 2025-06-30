@@ -1,5 +1,6 @@
 import { clearChildren, hide, show } from '../../extra-utilities/dom-manipulator';
 import addGridSquares from '../generate-ui-squares';
+import { resetAllUIPlacements } from '../ship-placement/ship-event-utilities';
 
 // Utility functions for 'reset-game.js'
 
@@ -34,6 +35,13 @@ function convertToStartButton() {
 
 export function resetGameSequence() {
     clearBoards();
+
+    const manualPlacementCont = document.querySelector('.manual-placement-cont');
+    const playerGrid = document.querySelector('.player-grid');
+
+    resetAllUIPlacements(manualPlacementCont, playerGrid);
+
+
     showShipPlacement();
     convertToStartButton();
 
