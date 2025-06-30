@@ -67,6 +67,7 @@ export default class PCPlay {
     static #isPotentialMove(markedGrid, startSquare, size, alignment) {
         // The starting square is always a potential target
         // Therefore, there is no need to check it
+
         let currentSquare = startSquare;
         let traverse = size - 1;
 
@@ -75,6 +76,11 @@ export default class PCPlay {
                 currentSquare = [currentSquare[0] + 1, currentSquare[1]];
             } else {
                 currentSquare = [currentSquare[0], currentSquare[1] + 1];
+            }
+
+            // Handles potential errors when out of row range
+            if (markedGrid[currentSquare[0]] === undefined) {
+                return false;
             }
 
             const squareOnGrid = markedGrid[currentSquare[0]][currentSquare[1]];
@@ -93,11 +99,13 @@ export default class PCPlay {
     // Return the index pair that was determined as a 'potential move'
     // NOTE: This function should only be executed when all hit ships are fully destroyed
     // Use 'nextMove' if a ship was hit yet not destroyed
+    // Furthermore, this function gives priority to horizontal moves
     static newMove(movesPerformed, largestStanding, emptyBoard) {
         const markedGrid = PCPlay.#markGrid(emptyBoard.grid, movesPerformed);
         const standingSize = Number(
             largestStanding[largestStanding.length - 1]
         );
+        const verticalMoves = [];
 
         for (const rowIndex in markedGrid) {
             const rowNum = Number(rowIndex);
@@ -127,12 +135,17 @@ export default class PCPlay {
                             'v'
                         )
                     ) {
-                        return indexPair;
+                        // We will only return a move based off vertical alignment
+                        // when there isn't one based off horizontal alignment
+                        verticalMoves.push(indexPair);
                     }
                 }
             }
         }
+
+        return verticalMoves[0];
     }
+
 
     static #potentialNextStrike(markedGrid, targetSquare) {
         // NOTE: This is done because one square up/right/down/left can be out of range
@@ -175,7 +188,7 @@ export default class PCPlay {
         let logBound = log.length - 1;
         while (logBound >= 0) {
             logBound = PCPlay.findRecentHit(log, logBound);
-            
+
             if (logBound === null) {
                 break;
             }

@@ -10,6 +10,7 @@ import {
 import {
     addMisses,
     destroyShip,
+    hitAllHorizontalCarrier,
     initialHits,
     initialMisses,
     playForBoth,
@@ -72,45 +73,70 @@ describe('Tests for the PCPlay class', () => {
     test('Can find a new square to target', () => {
         expect.assertions(2);
 
-        destroyShip(gameFlow, 'carrier5', 'submarine3');
+        gameFlow.player.board.clearPlacement('carrier5');
+        gameFlow.player.board.placeShip('carrier5', [
+            [0, 9],
+            [1, 9],
+            [2, 9],
+            [3, 9],
+            [4, 9],
+        ]);
 
+        playForBoth(gameFlow, [0, 0]);
+        playForBoth(gameFlow, [0, 1]);
+        playForBoth(gameFlow, [0, 2]);
+        playForBoth(gameFlow, [0, 3]);
+        playForBoth(gameFlow, [0, 4]);
         playForBoth(gameFlow, [0, 5]);
-        playForBoth(gameFlow, [0, 6]);
-        playForBoth(gameFlow, [0, 7]);
-        playForBoth(gameFlow, [0, 8]);
 
         let sinkLog = gameFlow.player.board.getSinkLog();
         let largestStanding = PCPlay.largestNotDestroyed(sinkLog);
         let movesPerformed = gameFlow.player.board.exhaustedMoves();
         let newBoard = new Board();
 
-        // Works for vertical move assertions
+        // Prioritizes horizontal placements
         expect(
             PCPlay.newMove(movesPerformed, largestStanding, newBoard)
-        ).toEqual([0, 9]);
+        ).toEqual([1, 0]);
 
-        destroyShip(gameFlow, 'battleship4');
-        playForBoth(gameFlow, [0, 9]);
+        // Hitting all remaining possible horizontal placements
+        hitAllHorizontalCarrier(gameFlow);
 
         sinkLog = gameFlow.player.board.getSinkLog();
         largestStanding = PCPlay.largestNotDestroyed(sinkLog);
         movesPerformed = gameFlow.player.board.exhaustedMoves();
         newBoard = new Board();
 
-        // Works for horizontal move assertions
+        // Can still give vertical suggestions
         expect(
             PCPlay.newMove(movesPerformed, largestStanding, newBoard)
-        ).toEqual([1, 4]);
+        ).toEqual([0, 6]);
     });
 
-    test.todo('Can find a new square to target (method V2)');
-
     test('Can determine the next move to make', () => {
-        initialHits(gameFlow);
+        expect.assertions(2);
+
+        initialMisses(gameFlow);
 
         let sinkLog = gameFlow.player.board.getSinkLog();
         let movesPerformed = gameFlow.player.board.exhaustedMoves();
         let newBoard = new Board();
+
+        // There is a fallback when there are no recent hits
+        expect(
+            PCPlay.nextMove(
+                gameFlow.opponent.log,
+                movesPerformed,
+                sinkLog,
+                newBoard
+            )
+        ).toBeNull();
+
+        initialHits(gameFlow);
+
+        sinkLog = gameFlow.player.board.getSinkLog();
+        movesPerformed = gameFlow.player.board.exhaustedMoves();
+        newBoard = new Board();
 
         expect(
             PCPlay.nextMove(
