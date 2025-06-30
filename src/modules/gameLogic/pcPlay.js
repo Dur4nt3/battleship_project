@@ -175,6 +175,11 @@ export default class PCPlay {
         let logBound = log.length - 1;
         while (logBound >= 0) {
             logBound = PCPlay.findRecentHit(log, logBound);
+            
+            if (logBound === null) {
+                break;
+            }
+
             const [targetSquare] = log[logBound];
 
             if (!PCPlay.inSinkRange(sinkLog, targetSquare)) {

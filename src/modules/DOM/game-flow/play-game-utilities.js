@@ -1,7 +1,7 @@
 import Board from '../../gameLogic/board';
 import PlacementInfo from '../../gameLogic/placementInfo';
 import { show } from '../../extra-utilities/dom-manipulator';
-
+import PCPlay from '../../gameLogic/pcPlay';
 // Utility functions for 'play-game.js'
 
 export function generatePCBoard() {
@@ -70,7 +70,27 @@ function generatePCMove(gameObj, method) {
         return Board.indexToCoordinate(chosenMove);
     }
 
-    console.log('calculated move');
+    const pcLog = gameObj.opponent.log;
+    const movesPerformed = gameObj.player.board.exhaustedMoves();
+    const sinkLog = gameObj.player.board.getSinkLog();
+    const emptyBoard = new Board();
+
+    const nextMove = PCPlay.nextMove(
+        pcLog,
+        movesPerformed,
+        sinkLog,
+        emptyBoard
+    );
+
+    if (nextMove !== null) {
+        return Board.indexToCoordinate(nextMove);
+    }
+
+    const largestStanding = PCPlay.largestNotDestroyed(sinkLog);
+
+    const newMove = PCPlay.newMove(movesPerformed, largestStanding, emptyBoard);
+
+    return Board.indexToCoordinate(newMove);
 }
 
 function getTurnResults(gameObj) {
@@ -160,7 +180,7 @@ export function startGameSequence(gameObj, starter) {
         markCurrentTurn('player');
     } else {
         markCurrentTurn('opponent');
-        // PC plays immediately
+        // PC plays immediately - first turn is always random
         playTurn(gameObj, generatePCMove(gameObj, 'random'));
         displayTurnResults(getTurnResults(gameObj), 'player');
         markCurrentTurn(gameObj.currentTurn);
@@ -195,7 +215,9 @@ function gameOverUIChanges(winner) {
     }
 
     show(resetCont);
-    resetCont.querySelector('.error-description').classList.add('clear-visibility');
+    resetCont
+        .querySelector('.error-description')
+        .classList.add('clear-visibility');
     resetButton.classList.add('reset-game');
     resetButton.textContent = 'Reset';
 }
@@ -214,7 +236,6 @@ export function endGameUI(winner, gameObj) {
 
     gameOverUIChanges(winner);
     updateStatistics(gameObj);
-
 }
 
 function isGameOver(gameObj) {
@@ -233,7 +254,7 @@ export function fullTurnSequence(gameObj, targetMove = null) {
         displayTurnResults(getTurnResults(gameObj), 'opponent');
         markCurrentTurn(gameObj.currentTurn);
     } else {
-        playTurn(gameObj, generatePCMove(gameObj, 'random'));
+        playTurn(gameObj, generatePCMove(gameObj, 'calculated'));
         displayTurnResults(getTurnResults(gameObj), 'player');
         markCurrentTurn(gameObj.currentTurn);
     }

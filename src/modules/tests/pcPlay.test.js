@@ -103,6 +103,8 @@ describe('Tests for the PCPlay class', () => {
         ).toEqual([1, 4]);
     });
 
+    test.todo('Can find a new square to target (method V2)');
+
     test('Can determine the next move to make', () => {
         initialHits(gameFlow);
 
